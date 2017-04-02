@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+        .mySelect{
+            color: black;
+        }
+    </style>
+
+    <title>CustomerByState</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="Content/bootstrap.css" />
+    <link rel="stylesheet" href="Content/Site.css" />
+
+<script>
+
+    $(document).ready(function () {
+
+        console.log("Inside ready function");
+
+        //Setup Event Handler: on change for the select element
+        $("#stateSelect").on("change", displayChosenState);
+
+        //Call the web service on page load
+        callAllStatesWebService();
+
+    });
+
+    function callAllStatesWebService() {
+
+        console.log("callAllStatesWebService function called!");
+
+        //IMPORTANT!!!!!!!!!!!!!
+        //For local development and testing:
+        //Fire up the WebService and then change the port number below (2389) to whatever
+        // VS assigned it that time.  It should be different for every session.
+        var portNumber = "50991";
+        console.log("portNumber = " + portNumber);
+
+        var hostURL = "http://localhost:" + portNumber + "/";
+
+        // /api/Products/
+        var urlString = hostURL +
+                        "api/customer/";
+        console.log("urlString=" + urlString);
+
+        $.ajax({
+            url: urlString,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: cb_CallAllStatesWebService_Success
+        });
+
+    }
+
+    function cb_CallAllStatesWebService_Success(parRetrievedData) {
+
+        console.log("Inside cb_CallAllStatesWebService_Success function");
+        console.dir(parRetrievedData);
+
+        //Fill the Select element
+        fillSelectElement(parRetrievedData);
+    }
+
+    function fillSelectElement(parStates) {
+
+        console.log("fillSelectElement function called!");
+        console.dir(parStates);
+
+        var stateSelect = document.getElementById("stateSelect");
+
+        //Loop through filled List object and fill Select element
+        for (var i = 0; i < parStates.length; i++) {
+
+
+            var stateCode = parStates[i].fldStateCode;
+            var stateName = parStates[i].fldStateName;
+            var itemInfo = stateName;
+
+            //Add Option to select element
+            stateSelect.options[i] = new Option(itemInfo, stateCode);
+        }
+
+        //Add a "Choose Category" option and make it selected intitially
+        stateSelect.options[stateSelect.options.length] =
+                                new Option("Choose a State!", "", true, true);
+    }
+
+    function displayChosenState() {
+        console.log("displayChosenState function called!");
+
+        //Get selected CategoryID value
+        var e = document.getElementById("stateSelect");
+        var selectedStateID = e.options[e.selectedIndex].value;
+        console.log("selectedStateID = " + selectedStateID);
+
+        //Call GetProductsByCategory web service
+        callCustomersWebService(selectedStateID);
+
+    }
+
+    function callCustomersWebService(parStateID) {
+
+        console.log("CallCustomersWebService function called!");
+
+        //IMPORTANT!!!!!!!!!!!!!
+        //For local development and testing:
+        //Fire up the WebService and then change the port number below (2389) to whatever
+        // VS assigned it that time.  It should be different for every session.
+        var portNumber = "50991";
+        //console.log("portNumber = " + portNumber);
+
+        var hostURL = "http://localhost:" + portNumber + "/";
+
+        var urlString = hostURL +
+                        "/api/customer/" + parStateID;
+        console.log("urlString=" + urlString);
+
+        $.ajax({
+            url: urlString,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: cb_callCustomersWebService_Success
+        });
+
+    }
+
+    function cb_callCustomersWebService_Success(parRetrievedData) {
+
+        console.log("Inside cb_CallCustomersWebService_Success function");
+        console.dir(parRetrievedData);
+
+        //Fill an HTML Table with retrieved data
+        displayCustomers(parRetrievedData);
+    }
+
+    function displayCustomers(parRetrievedData) {
+
+        var tableHTML = "<table class='table table-bordered table-striped'>" +
+                         "  <tr class='warning'> " +
+                         "      <td>Adress      </td>" +
+                         "      <td>City        </td>" +
+                         "      <td>State       </td>" +
+                         "      <td>ZipCode     </td>" +
+                         "      <td>First Name  </td>" +
+                         "      <td>Last Name   </td>" +
+                         "      <td>Email       </td>" +
+                         "      <td>Phone Number</td>" +
+                         "  </tr>";
+
+        //Loop through filled array of objects and fill HTML Table
+        for (var i = 0; i < parRetrievedData.length; i++) {
+
+            var adress = parRetrievedData[i].fldAddress;
+            var city = parRetrievedData[i].fldCity;
+            var state = parRetrievedData[i].fldState;
+            var zipCode = parRetrievedData[i].fldZipCode;
+            var firstName = parRetrievedData[i].fldFirstName;
+            var lastName = parRetrievedData[i].fldLastName
+            var email = parRetrievedData[i].fldEmail;
+            var phoneNumber = parRetrievedData[i].fldPhoneNumber;
+
+
+            //Add HTML Table row
+            tableHTML = tableHTML + "<tr>" +
+                                         "<td>" + adress      + "</td>" +
+                                         "<td>" + city        + "</td>" +
+                                         "<td>" + state       + "</td>" +
+                                         "<td>" + zipCode     + "</td>" +
+                                         "<td>" + firstName   + "</td>" +
+                                         "<td>" + lastName    + "</td>" +
+                                         "<td>" + email       + "</td>" +
+                                         "<td>" + phoneNumber + "</td>" +
+                                    "</tr>";
+        }
+
+        //End table string
+        tableHTML = tableHTML + "</table>";
+
+        //Display table
+        $("#divDisplayTable").html(tableHTML);
+    }
+
+    function cb_CallWebService_Error(parXMLHttpRequestObject) {
+        $("#divDebugPrint").show();
+        $("#divDebugPrint").append(parXMLHttpRequestObject.responseText);
+    }
+
+</script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a>Greer Project 2</a></li>
+                    <li><a href="/Home/Index">Home</a></li>
+                    <li><a href="AdminHome.html">Admin Home</a></li>
+                    <li><a href="SingleProduct.html">Single Product</a></li>
+                    <li><a href="ProductsInCategory.html">Products in Category</a></li>
+                    <li><a href="CustomerByState.html">Customers by State</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="col-lg-12">
+        <h3>Browse our Customers by State</h3><br />
+                    <h4>Select a State Below</h4> <br />
+                    <select id="stateSelect" class="mySelect">
+                        <option></option>
+                    </select>
+                    <p></p>
+                    <div id="divDisplayTable"></div>
+         <div style="text-align: left;" class="modal-footer text-right">Greer Project 2</div>
+     </div>
+</body>
+</html>

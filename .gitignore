@@ -1,47 +1,21 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+Greer_P2/.vs/*
+Greer_P2/packages/*
+Greer_P2/Greer_P2/Scripts/*
+*.config
+Greer_P2/Greer_P2/obj/*
+Greer_P2/Greer_P2/Properties/*
+Greer_P2/Greer_P2/Results/*
+Greer_P2/Greer_P2/Providers/*
+Greer_P2/Greer_P2/Images/*
+Greer_P2/Greer_P2/fonts/*
+Greer_P2/Greer_P2/Areas/*
+Greer_P2/Greer_P2/App_Start/*
+Greer_P2/Greer_P2/Views/*
+Greer_P2/Greer_P2/bin/*
+*.user
+*.csproj
+Greer_P2/Greer_P2/Global.asax.cs
+*.asax
+*.ico
+*.sln
+*.ldf
