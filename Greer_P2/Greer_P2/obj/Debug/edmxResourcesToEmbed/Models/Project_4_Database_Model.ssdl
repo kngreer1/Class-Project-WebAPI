@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Project_4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblCategories">
+    <Key>
+      <PropertyRef Name="fldCatagoryID" />
+    </Key>
+    <Property Name="fldCatagoryID" Type="int" Nullable="false" />
+    <Property Name="fldCatagoryName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblCustomers">
+    <Key>
+      <PropertyRef Name="fldEmail" />
+    </Key>
+    <Property Name="fldEmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="fldLastName" Type="varchar" MaxLength="50" />
+    <Property Name="fldFirstName" Type="varchar" MaxLength="50" />
+    <Property Name="fldCity" Type="varchar" MaxLength="50" />
+    <Property Name="fldState" Type="varchar" MaxLength="50" />
+    <Property Name="fldZipCode" Type="varchar" MaxLength="50" />
+    <Property Name="fldPhoneNumber" Type="varchar" MaxLength="50" />
+    <Property Name="fldAddress" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblInventory">
+    <Key>
+      <PropertyRef Name="fldProductSKU" />
+    </Key>
+    <Property Name="fldProductSKU" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="fldCatagoryID" Type="int" />
+    <Property Name="fldProductName" Type="varchar(max)" />
+    <Property Name="fldProductDescription" Type="varchar(max)" />
+    <Property Name="fldProductPrice" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="fldProductImageFile" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblStates">
+    <Key>
+      <PropertyRef Name="fldStateCode" />
+    </Key>
+    <Property Name="fldStateCode" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="fldStateName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Customers_States">
+    <End Role="tblStates" Type="Self.tblStates" Multiplicity="0..1" />
+    <End Role="tblCustomers" Type="Self.tblCustomers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblStates">
+        <PropertyRef Name="fldStateCode" />
+      </Principal>
+      <Dependent Role="tblCustomers">
+        <PropertyRef Name="fldState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_Catagories">
+    <End Role="tblCategories" Type="Self.tblCategories" Multiplicity="0..1" />
+    <End Role="tblInventory" Type="Self.tblInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCategories">
+        <PropertyRef Name="fldCatagoryID" />
+      </Principal>
+      <Dependent Role="tblInventory">
+        <PropertyRef Name="fldCatagoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Project_4ModelStoreContainer">
+    <EntitySet Name="tblCategories" EntityType="Self.tblCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCustomers" EntityType="Self.tblCustomers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblInventory" EntityType="Self.tblInventory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblStates" EntityType="Self.tblStates" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Customers_States" Association="Self.FK_Customers_States">
+      <End Role="tblStates" EntitySet="tblStates" />
+      <End Role="tblCustomers" EntitySet="tblCustomers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_Catagories" Association="Self.FK_Inventory_Catagories">
+      <End Role="tblCategories" EntitySet="tblCategories" />
+      <End Role="tblInventory" EntitySet="tblInventory" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

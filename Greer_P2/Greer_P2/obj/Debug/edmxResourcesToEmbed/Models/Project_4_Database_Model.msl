@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Project_4ModelStoreContainer" CdmEntityContainer="Project_4Entities">
+    <EntitySetMapping Name="tblCategories">
+      <EntityTypeMapping TypeName="Project_4Model.tblCategory">
+        <MappingFragment StoreEntitySet="tblCategories">
+          <ScalarProperty Name="fldCatagoryID" ColumnName="fldCatagoryID" />
+          <ScalarProperty Name="fldCatagoryName" ColumnName="fldCatagoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCustomers">
+      <EntityTypeMapping TypeName="Project_4Model.tblCustomer">
+        <MappingFragment StoreEntitySet="tblCustomers">
+          <ScalarProperty Name="fldEmail" ColumnName="fldEmail" />
+          <ScalarProperty Name="fldLastName" ColumnName="fldLastName" />
+          <ScalarProperty Name="fldFirstName" ColumnName="fldFirstName" />
+          <ScalarProperty Name="fldCity" ColumnName="fldCity" />
+          <ScalarProperty Name="fldState" ColumnName="fldState" />
+          <ScalarProperty Name="fldZipCode" ColumnName="fldZipCode" />
+          <ScalarProperty Name="fldPhoneNumber" ColumnName="fldPhoneNumber" />
+          <ScalarProperty Name="fldAddress" ColumnName="fldAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblInventories">
+      <EntityTypeMapping TypeName="Project_4Model.tblInventory">
+        <MappingFragment StoreEntitySet="tblInventory">
+          <ScalarProperty Name="fldProductSKU" ColumnName="fldProductSKU" />
+          <ScalarProperty Name="fldCatagoryID" ColumnName="fldCatagoryID" />
+          <ScalarProperty Name="fldProductName" ColumnName="fldProductName" />
+          <ScalarProperty Name="fldProductDescription" ColumnName="fldProductDescription" />
+          <ScalarProperty Name="fldProductPrice" ColumnName="fldProductPrice" />
+          <ScalarProperty Name="fldProductImageFile" ColumnName="fldProductImageFile" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblStates">
+      <EntityTypeMapping TypeName="Project_4Model.tblState">
+        <MappingFragment StoreEntitySet="tblStates">
+          <ScalarProperty Name="fldStateCode" ColumnName="fldStateCode" />
+          <ScalarProperty Name="fldStateName" ColumnName="fldStateName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Project_4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblCategory">
+    <Key>
+      <PropertyRef Name="fldCatagoryID" />
+    </Key>
+    <Property Name="fldCatagoryID" Type="Int32" Nullable="false" />
+    <Property Name="fldCatagoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblInventories" Relationship="Self.FK_Inventory_Catagories" FromRole="tblCategories" ToRole="tblInventory" />
+  </EntityType>
+  <EntityType Name="tblCustomer">
+    <Key>
+      <PropertyRef Name="fldEmail" />
+    </Key>
+    <Property Name="fldEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fldLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fldFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fldCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fldState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fldZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fldPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fldAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblState" Relationship="Self.FK_Customers_States" FromRole="tblCustomers" ToRole="tblStates" />
+  </EntityType>
+  <EntityType Name="tblInventory">
+    <Key>
+      <PropertyRef Name="fldProductSKU" />
+    </Key>
+    <Property Name="fldProductSKU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fldCatagoryID" Type="Int32" />
+    <Property Name="fldProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="fldProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="fldProductPrice" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="fldProductImageFile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblCategory" Relationship="Self.FK_Inventory_Catagories" FromRole="tblInventory" ToRole="tblCategories" />
+  </EntityType>
+  <EntityType Name="tblState">
+    <Key>
+      <PropertyRef Name="fldStateCode" />
+    </Key>
+    <Property Name="fldStateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fldStateName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblCustomers" Relationship="Self.FK_Customers_States" FromRole="tblStates" ToRole="tblCustomers" />
+  </EntityType>
+  <Association Name="FK_Inventory_Catagories">
+    <End Role="tblCategories" Type="Self.tblCategory" Multiplicity="0..1" />
+    <End Role="tblInventory" Type="Self.tblInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCategories">
+        <PropertyRef Name="fldCatagoryID" />
+      </Principal>
+      <Dependent Role="tblInventory">
+        <PropertyRef Name="fldCatagoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customers_States">
+    <End Role="tblStates" Type="Self.tblState" Multiplicity="0..1" />
+    <End Role="tblCustomers" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblStates">
+        <PropertyRef Name="fldStateCode" />
+      </Principal>
+      <Dependent Role="tblCustomers">
+        <PropertyRef Name="fldState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Project_4Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
+    <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
+    <EntitySet Name="tblInventories" EntityType="Self.tblInventory" />
+    <EntitySet Name="tblStates" EntityType="Self.tblState" />
+    <AssociationSet Name="FK_Inventory_Catagories" Association="Self.FK_Inventory_Catagories">
+      <End Role="tblCategories" EntitySet="tblCategories" />
+      <End Role="tblInventory" EntitySet="tblInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customers_States" Association="Self.FK_Customers_States">
+      <End Role="tblStates" EntitySet="tblStates" />
+      <End Role="tblCustomers" EntitySet="tblCustomers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
